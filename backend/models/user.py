@@ -1,7 +1,6 @@
 from app import mongo
 from typing import Dict, Any
 
-
 class User:
     def __init__(self, username: str, email: str, password: str, status: bool = True, gender: str = None,
                  membership_type: str = 'Regular', bio: str = None, dob: str = None):
@@ -39,3 +38,13 @@ class User:
     def get_by_id(user_id):
         user = mongo.db.users.find_one({'_id': user_id})
         return user
+
+    @staticmethod
+    def update(user_id, update_data: Dict[str, Any]):
+        update_result = mongo.db.users.update_one({'_id': user_id}, {'$set': update_data})
+        return update_result
+
+    @staticmethod
+    def delete(user_id):
+        delete_result = mongo.db.users.delete_one({'_id': user_id})
+        return delete_result
